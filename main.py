@@ -1,11 +1,17 @@
 import json
 
-
 def fetch_data():
-    fh = open("queue_test.json")
-    queue = json.load(fh)
+    try:
+        fh = open("queue_test.json")
+        queue = json.load(fh)
+        return queue
 
-    return queue
+    except FileExistsError:
+        with open('queue_test.json', 'w') as fh:
+            json.dump([], fh)
+            fetch_data()
+
+            # save_data([]) # change in final version
 
 
 def save_data(data):
@@ -26,6 +32,8 @@ def queue_sort(data):
             break
 
     save_data(data)
+    display_data(data)
+
 
 def display_data(data):
     print('Index no.     Priority     Value')
@@ -35,14 +43,18 @@ def display_data(data):
         print(str((value + 1)) + display_space + " " + str(data_dictionary["priority"]) + display_space + str(
             data_dictionary["value"]))
 
+def add_element(user_input):
+    pass
+
+def delete_element(user_input):
+    pass
+
+def display_elements(user_input):
+    pass
 
 def main_menu():
     pass
 
 
 if __name__ == '__main__':
-    print("before")
-    display_data(fetch_data())
-    print()
-    print('after')
-    queue_sort(fetch_data())
+    pass
