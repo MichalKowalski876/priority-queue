@@ -1,22 +1,48 @@
 import json
 
+
 def fetch_data():
     fh = open("queue_test.json")
     queue = json.load(fh)
 
     return queue
 
+
 def save_data(data):
     with open('queue.json', 'w') as f:
         json.dump(data, f)
+
+
+def queue_sort(data):
+    swap = False
+    data_length = len(data)
+    for index in range(data_length):
+        for pri_val in range(0, data_length - index - 1):
+            if data[pri_val]["priority"] > data[pri_val + 1]["priority"]:
+                data[pri_val]["priority"], data[pri_val + 1]["priority"] = data[pri_val + 1]["priority"], data[pri_val][
+                    "priority"]
+                swap = True
+        if not swap:
+            break
+
+    save_data(data)
 
 def display_data(data):
     print('Index no.     Priority     Value')
     display_space = '            '
     for value in range(len(data)):
         data_dictionary = data[value]
-        print(str((value + 1)) + display_space + " " + str(data_dictionary["priority"]) + display_space + str(data_dictionary["value"]) + display_space)
+        print(str((value + 1)) + display_space + " " + str(data_dictionary["priority"]) + display_space + str(
+            data_dictionary["value"]))
+
+
+def main_menu():
+    pass
 
 
 if __name__ == '__main__':
-    save_data(fetch_data())
+    print("before")
+    display_data(fetch_data())
+    print()
+    print('after')
+    queue_sort(fetch_data())
