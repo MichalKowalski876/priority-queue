@@ -1,4 +1,15 @@
 import json
+from time import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start_time = time()
+        result = func(*args, **kwargs)
+        end_time = time()
+        print(f'{func.__name__} took {end_time - start_time:.6f} seconds')
+        return result
+    return wrapper
+
 
 def fetch_data():
     try:
@@ -12,7 +23,6 @@ def fetch_data():
             fetch_data()
 
             # save_data([]) # change in final version
-
 
 def save_data(data):
     with open('queue.json', 'w') as f:
@@ -34,7 +44,7 @@ def queue_sort(data):
     save_data(data)
     display_data(data)
 
-
+@timer
 def display_data(data):
     print('Index no.     Priority     Value')
     display_space = '            '
@@ -57,6 +67,4 @@ def main_menu():
 
 
 if __name__ == '__main__':
-    pass
-
-# make a timer wrapper
+    display_data(fetch_data())
