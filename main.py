@@ -81,7 +81,29 @@ def delete_element():
 
 
 def search_elements():
-    pass
+    data = fetch_data()
+    search_query = input("Search query: ")
+    result = []
+
+    print("search results: ")
+    try:  # index search
+        result.append(data[int(search_query)])
+    except (TypeError, ValueError):
+        pass
+
+    try:  # priority search
+        if 0 < int(search_query) < 26:
+            for element in data:
+                if int(search_query) == element['priority']:
+                    result.append(element)
+    except (TypeError, ValueError):
+        pass
+
+    for element in data: # value search
+        if search_query == element['value']:
+            result.append(element)
+
+    display_data(result)
 
 
 def main_menu():
