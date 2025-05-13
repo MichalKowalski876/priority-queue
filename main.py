@@ -60,19 +60,45 @@ def display_data(data):
 
 
 def add_element():
-    print('priority 1-25: 1 highest - 25 lowest')
-    while True:
-        priority = input('input priority of element: ')
-        try:
-            priority = int(priority)
-            break
-        except ValueError:
-            print('\nMust be a number in range 1 - 25')
-
-    value = input('input value of element: ')
     data = fetch_data()
-    new_element = [{"priority": priority, "value": value}]
-    data.extend(new_element)
+
+    while True:
+        variant = input("1. Add custom element\n"
+                        "2. Add random elements\n"
+                        "3. Return to main menu\n")
+        print("")
+
+        if variant == "1":  # custom element
+            print('priority 1-25: 1 highest - 25 lowest')
+            while True:
+                priority = input('input priority of element: ')
+                try:
+                    priority = int(priority)
+                    break
+                except ValueError:
+                    print('\nMust be a number in range 1 - 25')
+
+            value = input('input value of element: ')
+
+            new_element = [{"priority": priority, "value": value}]
+            data.extend(new_element)
+
+        elif variant == "2":  # random elements
+            try:
+                amount = int(input("How many elements do you want to add?: "))
+                for radom_entry in range(amount):
+                    priority = randint(1, 25)
+                    value = 'task ' + str(randint(1, 999))
+                    new_random_element = {'priority': priority, 'value': value}
+                    data.append(new_random_element)
+                break
+            except ValueError:
+                print('Input a number')
+        elif variant == "3":
+            main_menu()
+        else:
+            print("Invalid option")
+
     queue_sort(data)
 
 
@@ -96,7 +122,7 @@ def search_elements():
     except (TypeError, ValueError, IndexError):
         pass
 
-    for element in data: # value search
+    for element in data:  # value search
         if search_query == element['value']:
             result.append(element)
 
@@ -124,7 +150,7 @@ def main_menu():
         elif action == "5":
             break
         else:
-            print("invalid option")
+            print("Invalid option")
 
 
 if __name__ == '__main__':
