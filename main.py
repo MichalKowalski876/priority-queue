@@ -59,9 +59,7 @@ def display_data(data):
     print('')
 
 
-def add_elements():
-    data = fetch_data()
-
+def add_elements(data):
     while True:
         variant = input("1. Add custom element\n"
                         "2. Add random elements\n"
@@ -82,6 +80,7 @@ def add_elements():
 
             new_element = [{"priority": priority, "value": value}]
             data.extend(new_element)
+            queue_sort(data)
 
         elif variant == "2":  # random elements
             try:
@@ -91,6 +90,7 @@ def add_elements():
                     value = 'task ' + str(randint(1, 999))
                     new_random_element = {'priority': priority, 'value': value}
                     data.append(new_random_element)
+                queue_sort(data)
                 break
             except ValueError:
                 print('Input a number')
@@ -99,16 +99,48 @@ def add_elements():
         else:
             print("Invalid option")
 
-    queue_sort(data)
+        queue_sort(data)
+        break
 
 
-def delete_elements():
-    while True:
-        variant = input()
-
-
-def search_elements():
+def delete_elements(data):
     data = fetch_data()
+    while True:
+        variant = input("1. Delete single entry by index\n"
+                        "2. Delete group by priority\n"
+                        "3. Delete group by value\n"
+                        "4. Return to main menu\n")
+        print('')
+
+        if variant == '1':
+            index_number = input('Input index of an element: ')
+            try:
+                del data[int(index_number)-1]
+                queue_sort(data)
+            except ValueError:
+                print('Input a number')
+            except IndexError:
+                print(f'No element under {index_number}')#
+
+        elif variant == '2':
+            priority_number = input('Input priority group: ')
+            try:
+                for element in range(len(data)):
+                    print(data[element])
+                    if data[element]['priority'] == int(priority_number):
+                        del data[element]
+                        queue_sort(data)
+            except ValueError:
+                print('Input a number')
+
+
+        elif variant == '3':
+            pass
+        elif variant == '4':
+            main_menu()
+
+
+def search_elements(data):
     search_query = input("Search query(!exit to return to main menu): ")
     result = []
     if search_query != "!exit":
@@ -143,11 +175,11 @@ def main_menu():
 
         print("")
         if action == "1":
-            add_elements()
+            add_elements(fetch_data())
         elif action == "2":
-            delete_elements()
+            delete_elements(fetch_data())
         elif action == "3":
-            search_elements()
+            search_elements(fetch_data())
         elif action == "4":
             display_data(fetch_data())
         elif action == "5":
