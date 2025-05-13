@@ -1,5 +1,6 @@
 import json
 from time import time
+from random import randint
 
 
 def timer(func):
@@ -13,7 +14,6 @@ def timer(func):
     return wrapper
 
 
-@timer
 def fetch_data():
     try:
         with open("queue_test.json", 'r') as fh:
@@ -28,13 +28,11 @@ def fetch_data():
             # save_data([]) # change in final version
 
 
-@timer
 def save_data(data):
     with open('queue.json', 'w') as fh:
         json.dump(data, fh)
 
 
-@timer
 def queue_sort(data):
     swap = False
     data_length = len(data)
@@ -48,10 +46,8 @@ def queue_sort(data):
             break
 
     save_data(data)
-    display_data(data)
 
 
-@timer
 def display_data(data):
     print('Index no.     Priority     Value')
     display_space = '            '
@@ -60,22 +56,57 @@ def display_data(data):
         print(str((value + 1)) + display_space + " " + str(data_dictionary["priority"]) + display_space + str(
             data_dictionary["value"]))
 
+    print('')
 
-def add_element(user_input):
+
+def add_element():
+    print('priority 1-25: 1 highest - 25 lowest')
+    while True:
+        priority = input('input priority of element: ')
+        try:
+            priority = int(priority)
+            break
+        except ValueError:
+            print('\nMust be a number in range 1 - 25')
+
+    value = input('input value of element: ')
+    data = fetch_data()
+    new_element = [{"priority": priority, "value": value}]
+    data.extend(new_element)
+    queue_sort(data)
+
+
+def delete_element():
     pass
 
 
-def delete_element(user_input):
-    pass
-
-
-def display_elements(user_input):
+def search_elements():
     pass
 
 
 def main_menu():
-    pass
+    while True:
+        action = input("Choose an action:\n"
+                       "1. Add element to queue\n"
+                       "2. Delete an element from queue\n"
+                       "3. Search for element in queue\n"
+                       "4. Display all elements in queue\n"
+                       "5. Stop the program\n")
+
+        print("")
+        if action == "1":
+            add_element()
+        elif action == "2":
+            delete_element()
+        elif action == "3":
+            search_elements()
+        elif action == "4":
+            display_data(fetch_data())
+        elif action == "5":
+            break
+        else:
+            print("invalid option")
 
 
 if __name__ == '__main__':
-    fetch_data()
+    main_menu()
