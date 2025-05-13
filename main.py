@@ -16,7 +16,7 @@ def timer(func):
 
 def fetch_data():
     try:
-        with open("queue_test.json", 'r') as fh:
+        with open("queue.json", 'r') as fh:
             content = fh.read()
             queue = json.loads(content)
             return queue
@@ -86,17 +86,14 @@ def search_elements():
     result = []
 
     print("search results: ")
-    try:  # index search
-        result.append(data[int(search_query)])
-    except (TypeError, ValueError):
-        pass
-
-    try:  # priority search
+    try:  # index & priority search
+        result.append(data[int(search_query) - 1])
         if 0 < int(search_query) < 26:
             for element in data:
                 if int(search_query) == element['priority']:
                     result.append(element)
-    except (TypeError, ValueError):
+
+    except (TypeError, ValueError, IndexError):
         pass
 
     for element in data: # value search
