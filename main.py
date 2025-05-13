@@ -59,7 +59,7 @@ def display_data(data):
     print('')
 
 
-def add_element():
+def add_elements():
     data = fetch_data()
 
     while True:
@@ -102,31 +102,34 @@ def add_element():
     queue_sort(data)
 
 
-def delete_element():
-    pass
+def delete_elements():
+    while True:
+        variant = input()
 
 
 def search_elements():
     data = fetch_data()
-    search_query = input("Search query: ")
+    search_query = input("Search query(!exit to return to main menu): ")
     result = []
+    if search_query != "!exit":
+        print("search results: ")
+        try:  # index & priority search
+            result.append(data[int(search_query) - 1])
+            if 0 < int(search_query) < 26:
+                for element in data:
+                    if int(search_query) == element['priority']:
+                        result.append(element)
 
-    print("search results: ")
-    try:  # index & priority search
-        result.append(data[int(search_query) - 1])
-        if 0 < int(search_query) < 26:
-            for element in data:
-                if int(search_query) == element['priority']:
-                    result.append(element)
+        except (TypeError, ValueError, IndexError):
+            pass
 
-    except (TypeError, ValueError, IndexError):
-        pass
+        for element in data:  # value search
+            if search_query == element['value']:
+                result.append(element)
 
-    for element in data:  # value search
-        if search_query == element['value']:
-            result.append(element)
-
-    display_data(result)
+        display_data(result)
+    else:
+        main_menu()
 
 
 def main_menu():
@@ -140,9 +143,9 @@ def main_menu():
 
         print("")
         if action == "1":
-            add_element()
+            add_elements()
         elif action == "2":
-            delete_element()
+            delete_elements()
         elif action == "3":
             search_elements()
         elif action == "4":
