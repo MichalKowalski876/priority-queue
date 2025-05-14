@@ -1,5 +1,4 @@
 import json
-from tarfile import data_filter
 from time import time
 from random import randint
 
@@ -22,11 +21,10 @@ def fetch_data():
             queue = json.loads(content)
             return queue
     except (FileNotFoundError, ValueError, json.JSONDecodeError):
-        with open('queue_test.json', 'w') as fh:
+        with open('queue.json', 'w') as fh:
             json.dump([], fh)
-            return None
 
-            # save_data([]) # change in final version
+    return fetch_data()
 
 
 def save_data(data):
