@@ -44,7 +44,7 @@ def queue_sort(data):
             break
     save_data(data)
 
-
+@timer
 def display_data(data, display_search=False):
     print('Index no.     Priority     Value')
     display_space = '            '
@@ -83,7 +83,7 @@ def add_elements(data):
         else:
             print('Invalid option')
 
-
+@timer
 def add_elements_logic(data, new_elements):
     data.extend(new_elements)
     queue_sort(data)
@@ -136,7 +136,6 @@ def delete_by_value(data, value):
             del data[i]
     queue_sort(data)
 
-@timer
 def search_elements(data):
     search_query = input('Search query(!exit to return to main menu): ')
     if search_query != '!exit':

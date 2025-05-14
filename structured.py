@@ -163,7 +163,6 @@ def search_elements(data):
     else:
         main_menu()
 
-
 def main_menu():
     while True:
         action = input('Choose an action:\n'
