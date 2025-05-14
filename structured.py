@@ -1,6 +1,6 @@
 import json
-from time import time
 from random import randint
+
 
 def fetch_data():
     try:
@@ -162,6 +162,7 @@ def search_elements(data):
         display_data(result, True)
     else:
         main_menu()
+
 
 def main_menu():
     while True:
