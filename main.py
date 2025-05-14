@@ -1,4 +1,5 @@
 import json
+from tarfile import data_filter
 from time import time
 from random import randint
 
@@ -48,15 +49,24 @@ def queue_sort(data):
     save_data(data)
 
 
-def display_data(data):
+def display_data(data, display_search=False):
     print('Index no.     Priority     Value')
     display_space = '            '
-    for value in range(len(data)):
-        data_dictionary = data[value]
-        print(str((value + 1)) + display_space + " " + str(data_dictionary["priority"]) + display_space + str(
-            data_dictionary["value"]))
+    if display_search:
+        data_compare = fetch_data()
+        for element in range(len(data_compare)):
+            for search_element in data:
+                if data_compare[element] == search_element:
+                    print(
+                        str(element + 1) + display_space + ' ' + str(search_element['priority']) + display_space + str(
+                            search_element['value']))
+    else:
+        for value in range(len(data)):
+            data_dictionary = data[value]
+            print(str(value + 1) + display_space + ' ' + str(data_dictionary['priority']) + display_space + str(
+                data_dictionary['value']))
 
-    print('')
+        print('')
 
 
 def add_elements(data):
@@ -104,7 +114,6 @@ def add_elements(data):
 
 
 def delete_elements(data):
-    data = fetch_data()
     while True:
         variant = input("1. Delete single entry by index\n"
                         "2. Delete group by priority\n"
@@ -115,29 +124,34 @@ def delete_elements(data):
         if variant == '1':
             index_number = input('Input index of an element: ')
             try:
-                del data[int(index_number)-1]
-                queue_sort(data)
+                del data[int(index_number) - 1]
             except ValueError:
                 print('Input a number')
             except IndexError:
-                print(f'No element under {index_number}')#
+                print(f'No element under {index_number}')
 
         elif variant == '2':
-            priority_number = input('Input priority group: ')
+            delete_priority = input('Input priority group: ')
             try:
-                for element in range(len(data)):
-                    print(data[element])
-                    if data[element]['priority'] == int(priority_number):
+                for element in range(len(data) - 1, -1, -1):
+                    if data[element]['priority'] == int(delete_priority):
                         del data[element]
-                        queue_sort(data)
+
+                queue_sort(data)
             except ValueError:
                 print('Input a number')
 
-
         elif variant == '3':
-            pass
+            delelte_value = input('Input value to delete: ')
+            for element in range(len(data) - 1, -1, -1):
+                if data[element]['value'] == delelte_value:
+                    del data[element]
+
+            queue_sort(data)
+
         elif variant == '4':
             main_menu()
+        main_menu()
 
 
 def search_elements(data):
@@ -159,7 +173,7 @@ def search_elements(data):
             if search_query == element['value']:
                 result.append(element)
 
-        display_data(result)
+        display_data(result, True)
     else:
         main_menu()
 
