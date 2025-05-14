@@ -46,21 +46,18 @@ def queue_sort(data):
 
 @timer
 def display_data(data, display_search=False):
-    print('Index no.     Priority     Value')
-    display_space = '            '
+    print('{:<7} {:<9} {}'.format('Index', 'Priority', 'Value'))
     if display_search:
         data_compare = fetch_data()
-        for element in range(len(data_compare)):
-            for search_element in data:
-                if data_compare[element] == search_element:
-                    print(
-                        str(element + 1) + display_space + ' ' + str(search_element['priority']) + display_space + str(
-                            search_element['value']))
+        print('{:<7} {:<9} {}'.format('Index', 'Priority', 'Value'))
+        for idx, search_element in enumerate(data, start=1):
+            if search_element in data_compare:
+                print('{:<7} {:<9} {}'.format(idx, search_element['priority'], search_element['value']))
     else:
-        for value in range(len(data)):
-            data_dictionary = data[value]
-            print(str(value + 1) + display_space + ' ' + str(data_dictionary['priority']) + display_space + str(
-                data_dictionary['value']))
+        print('{:<7} {:<9} {}'.format('Index', 'Priority', 'Value'))
+        for idx, item in enumerate(data, start=1):
+            print('{:<7} {:<9} {}'.format(idx, item['priority'], item['value']))
+        print('')
 
 
 def add_elements(data):
