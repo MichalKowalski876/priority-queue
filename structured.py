@@ -2,18 +2,6 @@ import json
 from time import time
 from random import randint
 
-
-def timer(func):
-    def wrapper(*args, **kwargs):
-        start_time = time()
-        result = func(*args, **kwargs)
-        end_time = time()
-        print(f'{func.__name__} took {end_time - start_time:.6f} seconds')
-        return result
-
-    return wrapper
-
-
 def fetch_data():
     try:
         with open('queue.json', 'r') as fh:
