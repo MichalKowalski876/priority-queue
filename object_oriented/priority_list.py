@@ -16,9 +16,9 @@ def timer(func):
 class PriorityQueue:
     def __init__(self, filename='queue.json'):
         self.filename = filename
-        self.data = self.load_data()
+        self.data = self.fetch_data()
 
-    def load_data(self):
+    def fetch_data(self):
         try:
             with open(self.filename, 'r') as fh:
                 return json.load(fh)
@@ -46,13 +46,17 @@ class PriorityQueue:
         self.save_data()
 
     @timer
-    def display(self, items=None):
-        if items is None:
-            items = self.data
+    def display_data(self, data, display_search = False):
         print('{:<7} {:<9} {}'.format('Index', 'Priority', 'Value'))
-        for idx, item in enumerate(items, start=1):
-            print('{:<7} {:<9} {}'.format(idx, item['priority'], item['value']))
-        print()
+        if display_search:
+            for idx, search_element in enumerate(self.data, start=1):
+                if search_element in data:
+                    print('{:<7} {:<9} {}'.format(idx, search_element['priority'], search_element['value']))
+        else:
+            print('{:<7} {:<9} {}'.format('Index', 'Priority', 'Value'))
+            for idx, item in enumerate(data, start=1):
+                print('{:<7} {:<9} {}'.format(idx, item['priority'], item['value']))
+            print('')
 
     @timer
     def add(self, new_elements):
@@ -95,15 +99,20 @@ class PriorityQueue:
         self.data = [item for item in self.data if item['value'] != value]
         self.sort_queue()
 
+    @timer
+    def delete_all(self):
+        self.data = []
+
     def delete_elements(self):
         while True:
             variant = input('1. Delete single entry by index\n'
                             '2. Delete group by priority\n'
                             '3. Delete group by value\n'
-                            '4. Return to main menu\n\n')
+                            '4. Delete all\n'
+                            '5. Return to main menu\n\n')
             if variant == '1':
-                idx = int(input('Index to delete: ')) - 1
-                self.delete_by_index(idx)
+                index = int(input('Index to delete: ')) - 1
+                self.delete_by_index(index)
             elif variant == '2':
                 prio = int(input('Priority to delete: '))
                 self.delete_by_priority(prio)
@@ -111,6 +120,7 @@ class PriorityQueue:
                 val = input('Value to delete: ')
                 self.delete_by_value(val)
             elif variant == '4':
+                self.delete_all()
                 return
             else:
                 print('Invalid option\n')
@@ -133,7 +143,7 @@ class PriorityQueue:
             pass
         results += [x for x in self.data if x['value'] == query]
         print('Search results:')
-        self.display(results)
+        self.display_data(results, True)
 
     def main_menu(self):
         while True:
@@ -150,7 +160,7 @@ class PriorityQueue:
             elif action == '3':
                 self.search_elements()
             elif action == '4':
-                self.display()
+                self.display_data(self.data)
             elif action == '5':
                 break
             else:

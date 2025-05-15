@@ -49,7 +49,6 @@ def display_data(data, display_search=False):
     print('{:<7} {:<9} {}'.format('Index', 'Priority', 'Value'))
     if display_search:
         data_compare = fetch_data()
-        print('{:<7} {:<9} {}'.format('Index', 'Priority', 'Value'))
         for idx, search_element in enumerate(data, start=1):
             if search_element in data_compare:
                 print('{:<7} {:<9} {}'.format(idx, search_element['priority'], search_element['value']))
@@ -91,7 +90,8 @@ def delete_elements(data):
         variant = input('1. Delete single entry by index\n'
                         '2. Delete group by priority\n'
                         '3. Delete group by value\n'
-                        '4. Return to main menu\n')
+                        '4. Delete all\n'
+                        '5. Return to main menu\n')
         print('')
         if variant == '1':
             try:
@@ -108,9 +108,15 @@ def delete_elements(data):
         elif variant == '3':
             val = input('Value to delete: ')
             delete_by_value(data, val)
-        elif variant == '4':
-            return
 
+        elif variant == '4':
+            delete_all()
+
+        elif variant == '5':
+            main_menu()
+
+def delete_all():
+    save_data([])
 
 @timer
 def delete_by_index(data, index):
