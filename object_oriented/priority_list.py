@@ -135,29 +135,28 @@ class PriorityQueue:
         print('Search results:')
         self.display(results)
 
-
-def main_menu():
-    queue = PriorityQueue()
-    while True:
-        action = input('Choose an action:\n'
-                       '1. Add element to queue\n'
-                       '2. Delete an element from queue\n'
-                       '3. Search for element in queue\n'
-                       '4. Display all elements in queue\n'
-                       '5. Stop the program\n\n')
-        if action == '1':
-            queue.add_elements()
-        elif action == '2':
-            queue.delete_elements()
-        elif action == '3':
-            queue.search_elements()
-        elif action == '4':
-            queue.display()
-        elif action == '5':
-            break
-        else:
-            print('Invalid option\n')
+    def main_menu(self):
+        while True:
+            action = input('Choose an action:\n'
+                           '1. Add element to queue\n'
+                           '2. Delete an element from queue\n'
+                           '3. Search for element in queue\n'
+                           '4. Display all elements in queue\n'
+                           '5. Stop the program\n\n')
+            if action == '1':
+                self.add_elements()
+            elif action == '2':
+                self.delete_elements()
+            elif action == '3':
+                self.search_elements()
+            elif action == '4':
+                self.display()
+            elif action == '5':
+                break
+            else:
+                print('Invalid option\n')
 
 
 if __name__ == '__main__':
-    main_menu()
+    pq = PriorityQueue()
+    pq.main_menu()
