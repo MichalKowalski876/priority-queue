@@ -76,7 +76,7 @@ def add_elements(data):
             new_randoms = [{'priority': randint(1, 25), 'value': f'task {randint(1, 999)}'} for _ in range(amount)]
             add_elements_logic(data, new_randoms)
         elif variant == '3':
-            return
+            main_menu()
         else:
             print('Invalid option')
 
