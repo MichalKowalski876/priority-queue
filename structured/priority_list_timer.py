@@ -53,7 +53,6 @@ def display_data(data, display_search=False):
             if search_element in data_compare:
                 print('{:<7} {:<9} {}'.format(idx, search_element['priority'], search_element['value']))
     else:
-        print('{:<7} {:<9} {}'.format('Index', 'Priority', 'Value'))
         for idx, item in enumerate(data, start=1):
             print('{:<7} {:<9} {}'.format(idx, item['priority'], item['value']))
         print('')
